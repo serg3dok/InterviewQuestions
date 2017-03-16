@@ -1,7 +1,7 @@
 /**
  * Created by Sergey on 3/11/2017.
  */
-public class IslandsCounter {
+public class IslandsCounter2 {
 
     int matrix[][];
     boolean isVisited[][];
@@ -10,7 +10,7 @@ public class IslandsCounter {
     int[] verticalShift = {0, 1, 0, -1};
     int[] horizontalShift = {1, 0, -1, 0};
 
-    IslandsCounter(int matrix[][]) {
+    IslandsCounter2(int matrix[][]) {
         isVisited = new boolean[matrix.length][matrix[0].length];
         this.matrix = new int[matrix.length][matrix[0].length];
 
@@ -24,7 +24,7 @@ public class IslandsCounter {
 
 
     public static void main(String[] args) {
-        IslandsCounter counter = new IslandsCounter(
+        IslandsCounter2 counter = new IslandsCounter2(
                 new int[][]{
                         {0, 1, 0, 0, 0, 1},
                         {1, 1, 1, 0, 1, 1},
@@ -38,11 +38,12 @@ public class IslandsCounter {
         System.out.println(counter.countIslands());
     }
 
+    // iterate all matrix and find 1
     int countIslands() {
         // main loop
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == 1 && isVisited[i][j] == false) {
+                if (matrix[i][j] == 1 && !isVisited[i][j]) {
                     counter++;
                     //isVisited[i][j] = true;
                     exploreIsland(i, j);
@@ -56,41 +57,37 @@ public class IslandsCounter {
         return counter;
     }
 
+
+    // check boundary
     boolean isSafe(int row, int col) {
 
-        // out of boundary
-        if (row < 0 || col  < 0 || col == matrix.length - 1 || col == matrix.length - 1 ) {
-            return false;
-        }
-
-        // already visited
-        if (isVisited[row][col]) {
-            return false;
-        }
-
-        isVisited[row][col] = true;
-
-        if ( matrix[row][col] != 1) {
+        if (row < 0 || col < 0 || row == matrix.length || col == matrix.length) {
             return false;
         }
 
         return true;
     }
 
-    void exploreIsland(int row, int col) {
 
+    // recursive function explore cells with 1s and marks all visited cells
+    void exploreIsland(int row, int col) {
 
 
         isVisited[row][col] = true;
 
-        if (!isVisited[row][col] || matrix[row][col] == 1) {
-
-        }
 
         for (int i = 0; i < horizontalShift.length; i++) {
-            if (isSafe(row + verticalShift[i], col + horizontalShift[i])) {
+            int nextRow = row + verticalShift[i];
+            int nextCol = col + horizontalShift[i];
 
-                exploreIsland(row + verticalShift[i], col + horizontalShift[i]);
+            if (isSafe(nextRow, nextCol)) {
+                if (!isVisited[nextRow][nextCol]) {
+                    isVisited[nextRow][nextCol] = true;
+                    if (matrix[nextRow][nextCol] == 1) {
+                        exploreIsland(nextRow, nextCol);
+                    }
+                }
+
             }
         }
 
