@@ -16,6 +16,7 @@ import java.util.Random;
 class Node {
     Node left;
     Node right;
+    Node parent;
     int data;
     Node () {
         this.left = null;
@@ -36,9 +37,44 @@ public class TreeSide {
 
     }
 
-    public static void generateTree(int[] data) {
+    public static Node generateTree() {
 
 
+        Node head = new Node(10);
+        Node current = head;
+
+        Node tmp = current;
+        current = current.left;
+        current.parent = tmp;
+        current.data = 5;
+
+        tmp = current;
+        current = current.left;
+        current.parent = tmp;
+        current.data = 2;
+
+        tmp = current;
+        current = current.left;
+        current.parent = tmp;
+        current.data = 1;
+
+        current = current.parent;
+        current = current.parent;
+
+        tmp = current;
+        current = current.right;
+        current.parent = tmp;
+        current.data = 6;
+
+        current = current.parent;
+        current = current.parent;
+
+        tmp = current;
+        current = current.right;
+        current.parent = tmp;
+        current.data = 15;
+
+        return head;
     }
 
     private static void printTree(Node randomTree) {

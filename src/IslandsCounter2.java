@@ -87,7 +87,6 @@ public class IslandsCounter2 {
                         exploreIsland(nextRow, nextCol);
                     }
                 }
-
             }
         }
 
